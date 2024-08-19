@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 import { AuthorDataBuilder } from '../helpers/author-data-builder'
 import { CreateAuthorUsecase } from './create-autor.usecase'
+import { ConflictError } from '@/shared/errors/conflict-error'
+import { BadRequestError } from '@/shared/errors/bad-request-error'
 
 describe('AuthorsPrismaRepository integration tests', () => {
   let module: TestingModule
@@ -36,5 +38,35 @@ describe('AuthorsPrismaRepository integration tests', () => {
     expect(author.id).toBeDefined()
     expect(author.createdAt).toBeInstanceOf(Date)
     expect(author).toMatchObject(data)
+  })
+
+  test('should not be able to create an author an email in use', async () => {
+    const data = AuthorDataBuilder({ email: 'a@a.com' })
+
+    const author = await usecase.execute(data)
+
+    await expect(() => usecase.execute(data)).rejects.toBeInstanceOf(
+      ConflictError,
+    )
+  })
+
+  test('should throw error when name is not provided', async () => {
+    const data = AuthorDataBuilder({})
+
+    data.name = null
+
+    await expect(() => usecase.execute(data)).rejects.toBeInstanceOf(
+      BadRequestError,
+    )
+  })
+
+  test('should throw error when email is not provided', async () => {
+    const data = AuthorDataBuilder({})
+
+    data.email = null
+
+    await expect(() => usecase.execute(data)).rejects.toBeInstanceOf(
+      BadRequestError,
+    )
   })
 })
