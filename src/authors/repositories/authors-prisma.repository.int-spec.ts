@@ -30,4 +30,17 @@ describe('AuthorsPrismaRepository integration tests', () => {
       new NotFoundError('Author not found using ID Wrong ID'),
     )
   })
+
+  test('should throw an error when the id is not found', async () => {
+    const data = {
+      name: 'Test',
+      email: 'a@a.com',
+    }
+    const author = await prisma.author.create({
+      data,
+    })
+
+    const result = await repository.findById(author.id)
+    expect(result).toStrictEqual(author)
+  })
 })
