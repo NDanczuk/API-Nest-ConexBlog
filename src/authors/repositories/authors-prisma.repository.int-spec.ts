@@ -96,15 +96,25 @@ describe('AuthorsPrismaRepository integration tests', () => {
       })
 
       await prisma.author.createMany({ data })
-      const result = await repository.search({
+      const result1 = await repository.search({
         page: 1,
         perPage: 2,
         sort: 'name',
         sortDir: 'asc',
       })
 
-      expect(result.items[0]).toMatchObject(data[1])
-      expect(result.items[1]).toMatchObject(data[0])
+      expect(result1.items[0]).toMatchObject(data[1])
+      expect(result1.items[1]).toMatchObject(data[0])
+
+      const result2 = await repository.search({
+        page: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+      })
+
+      expect(result2.items[0]).toMatchObject(data[4])
+      expect(result2.items[1]).toMatchObject(data[2])
     })
   })
 })
