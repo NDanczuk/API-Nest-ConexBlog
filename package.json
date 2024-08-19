@@ -13,13 +13,13 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "npm dotenv-cli -e .env.test -- jest --runInBand",
-    "test:watch": "npm dotenv-cli -e .env.test -- jest --runInBand --watch",
-    "test:cov": "npm dotenv-cli -e .env.test -- jest --runInBand --coverage",
-    "test:debug": "npm dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "npm dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.e2e.config.json",
-    "test:int": "npm dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.int.config.json",
-    "prisma:migratetest": "npm dotenv-cli -e .env.test -- npx prisma migrate deploy"
+    "test": "npx dotenv-cli -e .env.test -- jest --runInBand",
+    "test:watch": "npx dotenv-cli -e .env.test -- jest --runInBand --watch",
+    "test:cov": "npx dotenv-cli -e .env.test -- jest --runInBand --coverage",
+    "test:debug": "npx dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.e2e.config.json",
+    "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.int.config.json",
+    "prisma:migratetest": "npx dotenv-cli -e .env.test -- npx prisma migrate deploy"
   },
   "dependencies": {
     "@apollo/server": "^4.11.0",
