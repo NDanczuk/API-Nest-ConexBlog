@@ -107,7 +107,7 @@ describe('AuthorsPrismaRepository integration tests', () => {
       expect(result1.items[1]).toMatchObject(data[0])
 
       const result2 = await repository.search({
-        page: 1,
+        page: 2,
         perPage: 2,
         sort: 'name',
         sortDir: 'asc',
@@ -115,6 +115,43 @@ describe('AuthorsPrismaRepository integration tests', () => {
 
       expect(result2.items[0]).toMatchObject(data[4])
       expect(result2.items[1]).toMatchObject(data[2])
+    })
+
+    test('should apply pagination, filter and ordenation', async () => {
+      const createdAt = new Date()
+      const data = []
+      const arrange = ['test', 'a', 'TEST', 'b', 'Test']
+      arrange.forEach((element, index) => {
+        const timestamp = createdAt.getTime() + index
+        data.push({
+          ...AuthorDataBuilder({ name: element }),
+          email: `author${index}@a.com`,
+          createdAt: new Date(timestamp),
+        })
+      })
+
+      await prisma.author.createMany({ data })
+      const result1 = await repository.search({
+        page: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'TEST',
+      })
+
+      expect(result1.items[0]).toMatchObject(data[0])
+      expect(result1.items[1]).toMatchObject(data[4])
+
+      const result2 = await repository.search({
+        page: 2,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'TEST',
+      })
+
+      expect(result2.items[0]).toMatchObject(data[2])
+      expect(result2.items.length).toBe(1)
     })
   })
 })
