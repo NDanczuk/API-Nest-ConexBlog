@@ -32,13 +32,23 @@ describe('AuthorsPrismaRepository integration tests', () => {
     )
   })
 
-  test('should throw an error when the id is not found', async () => {
+  test('should find an author', async () => {
     const data = AuthorDataBuilder({})
+
     const author = await prisma.author.create({
       data,
     })
 
     const result = await repository.findById(author.id)
     expect(result).toStrictEqual(author)
+  })
+
+  //Create
+  test('should find an author', async () => {
+    const data = AuthorDataBuilder({})
+
+    const author = await repository.create(data)
+
+    expect(author).toMatchObject(data)
   })
 })
