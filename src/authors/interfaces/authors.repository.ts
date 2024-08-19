@@ -19,7 +19,7 @@ export type SearchResult = {
 }
 
 export interface IAuthorsRepository {
-  sortableFields: []
+  sortableFields: string[]
 
   create(data: ICreateAuthor): Promise<Author>
   update(author: IUpdateAuthor): Promise<Author>
