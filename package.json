@@ -17,8 +17,8 @@
     "test:watch": "npx dotenv-cli -e .env.test -- jest --runInBand --watch",
     "test:cov": "npx dotenv-cli -e .env.test -- jest --runInBand --coverage",
     "test:debug": "npx dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.e2e.config.json",
-    "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./test/jest.int.config.json",
+    "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.e2e.config.ts",
+    "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts",
     "prisma:migratetest": "npx dotenv-cli -e .env.test -- npx prisma migrate deploy"
   },
   "dependencies": {
