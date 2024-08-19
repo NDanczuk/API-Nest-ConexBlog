@@ -5,7 +5,6 @@ import {
   SearchResult,
 } from '../interfaces/authors.repository'
 import { ICreateAuthor } from '../interfaces/create-author'
-import { IUpdateAuthor } from '../interfaces/update-author'
 import { PrismaService } from '@/database/prisma/prisma.service'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 
@@ -22,8 +21,15 @@ export class AuthorsPrismaRepository implements IAuthorsRepository {
     return author
   }
 
-  update(author: IUpdateAuthor): Promise<Author> {
-    throw new Error('Method not implemented.')
+  async update(author: Author): Promise<Author> {
+    await this.get(author.id)
+    const authorUpdated = await this.prisma.author.update({
+      data: author,
+      where: {
+        id: author.id,
+      },
+    })
+    return author
   }
 
   delete(id: string): Promise<Author> {

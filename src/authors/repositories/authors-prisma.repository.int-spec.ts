@@ -27,8 +27,8 @@ describe('AuthorsPrismaRepository integration tests', () => {
 
   // findById
   test('should throw an error when the id is not found', async () => {
-    await expect(repository.findById('Wrong ID')).rejects.toThrow(
-      new NotFoundError('Author not found using ID Wrong ID'),
+    await expect(repository.findById('Fake ID')).rejects.toThrow(
+      new NotFoundError('Author not found using ID Fake ID'),
     )
   })
 
@@ -50,6 +50,30 @@ describe('AuthorsPrismaRepository integration tests', () => {
     const author = await repository.create(data)
 
     expect(author).toMatchObject(data)
+  })
+
+  //Update
+  test('should throw an error at update when the author is not found by id', async () => {
+    const data = AuthorDataBuilder({})
+    const author = {
+      id: 'Fake ID',
+      ...data,
+    }
+    await expect(repository.update(author)).rejects.toThrow(
+      new NotFoundError('Author not found using ID Fake ID'),
+    )
+  })
+
+  test('should update an author', async () => {
+    const data = AuthorDataBuilder({})
+    const author = await prisma.author.create({ data })
+
+    const result = await repository.update({
+      ...author,
+      name: 'new name',
+    })
+
+    expect(result.name).toBe('new name')
   })
 
   //Search

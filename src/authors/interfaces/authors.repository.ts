@@ -1,6 +1,5 @@
 import { Author } from '@prisma/client'
 import { ICreateAuthor } from './create-author'
-import { IUpdateAuthor } from './update-author'
 
 export type SearchParams = {
   page?: number
@@ -22,7 +21,7 @@ export interface IAuthorsRepository {
   sortableFields: string[]
 
   create(data: ICreateAuthor): Promise<Author>
-  update(author: IUpdateAuthor): Promise<Author>
+  update(author: Author): Promise<Author>
   delete(id: string): Promise<Author>
   findById(id: string): Promise<Author>
   findByEmail(email: string): Promise<Author>
