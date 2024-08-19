@@ -51,4 +51,31 @@ describe('AuthorsPrismaRepository integration tests', () => {
 
     expect(author).toMatchObject(data)
   })
+
+  //Search
+  describe('search method', () => {
+    test('should only apply pagination when params are null', async () => {
+      const createdAt = new Date()
+      const data = []
+      const arrange = Array(16).fill(AuthorDataBuilder({}))
+      arrange.forEach((element, index) => {
+        const timestamp = createdAt.getTime() + index
+        data.push({
+          ...element,
+          email: `author${index}@a.com`,
+          createdAt: new Date(timestamp),
+        })
+      })
+
+      await prisma.author.createMany({ data })
+      const result = await repository.search({})
+
+      expect(result.total).toBe(16)
+      expect(result.items.length).toBe(15)
+
+      result.items.forEach(item => {
+        expect(item.id).toBeDefined()
+      })
+    })
+  })
 })
