@@ -3,6 +3,7 @@ import { AuthorsResolver } from './graphql/resolvers/authors.resolver'
 import { DatabaseModule } from '@/database/database.module'
 import { PrismaService } from '@/database/prisma/prisma.service'
 import { AuthorsPrismaRepository } from './repositories/authors-prisma.repository'
+import { ListAuthorsUsecase } from './usecases/list-authors.usecase'
 
 @Module({
   imports: [DatabaseModule],
@@ -18,6 +19,13 @@ import { AuthorsPrismaRepository } from './repositories/authors-prisma.repositor
         return new AuthorsPrismaRepository(prisma)
       },
       inject: ['PrismaService'],
+    },
+    {
+      provide: ListAuthorsUsecase.Usecase,
+      useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+        return new ListAuthorsUsecase.Usecase(authorsRepository)
+      },
+      inject: ['AuthorsRepository'],
     },
   ],
 })
