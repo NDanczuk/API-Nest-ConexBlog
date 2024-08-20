@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process'
 import { PrismaClient } from '@prisma/client'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 import { AuthorDataBuilder } from '../helpers/author-data-builder'
-import { CreateAuthorUsecase } from './create-autor.usecase'
+import { CreateAuthorUsecase } from './create-author.usecase'
 import { ConflictError } from '@/shared/errors/conflict-error'
 import { BadRequestError } from '@/shared/errors/bad-request-error'
 
