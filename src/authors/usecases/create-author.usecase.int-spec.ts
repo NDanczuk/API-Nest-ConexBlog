@@ -8,7 +8,7 @@ import { CreateAuthorUsecase } from './create-author.usecase'
 import { ConflictError } from '@/shared/errors/conflict-error'
 import { BadRequestError } from '@/shared/errors/bad-request-error'
 
-describe('AuthorsPrismaRepository integration tests', () => {
+describe('CreateUserCase integration tests', () => {
   let module: TestingModule
   let repository: AuthorsPrismaRepository
   let usecase: CreateAuthorUsecase.Usecase

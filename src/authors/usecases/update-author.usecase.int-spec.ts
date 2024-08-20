@@ -2,14 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { AuthorsPrismaRepository } from '../repositories/authors-prisma.repository'
 import { execSync } from 'node:child_process'
 import { PrismaClient } from '@prisma/client'
-import { GetAuthorUsecase } from './get-author.usecase'
+import { UpdateAuthorUsecase } from './update-author.usecase'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 import { AuthorDataBuilder } from '../helpers/author-data-builder'
 
-describe('GetAuthorUsecase integration tests', () => {
+describe('UpdateAuthorUsecase integration tests', () => {
   let module: TestingModule
   let repository: AuthorsPrismaRepository
-  let usecase: GetAuthorUsecase.Usecase
+  let usecase: UpdateAuthorUsecase.Usecase
   const prisma = new PrismaClient()
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe('GetAuthorUsecase integration tests', () => {
     await prisma.$connect()
     module = await Test.createTestingModule({}).compile()
     repository = new AuthorsPrismaRepository(prisma as any)
-    usecase = new GetAuthorUsecase.Usecase(repository)
+    usecase = new UpdateAuthorUsecase.Usecase(repository)
   })
 
   beforeEach(async () => {

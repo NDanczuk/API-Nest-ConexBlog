@@ -5,7 +5,7 @@ import { PrismaClient } from '@prisma/client'
 import { ListAuthorsUsecase } from './list-authors.usecase'
 import { AuthorDataBuilder } from '../helpers/author-data-builder'
 
-describe('AuthorsPrismaRepository integration tests', () => {
+describe('ListAuthorUsecase integration tests', () => {
   let module: TestingModule
   let repository: AuthorsPrismaRepository
   let usecase: ListAuthorsUsecase.Usecase
