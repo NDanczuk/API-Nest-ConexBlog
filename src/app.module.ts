@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { AuthorsModule } from './authors/authors.module'
+import { PostsModule } from './posts/posts.module';
 import path from 'path'
 
 @Module({
@@ -17,6 +18,7 @@ import path from 'path'
       autoSchemaFile: path.resolve(process.cwd(), 'src/schema.gql'),
     }),
     AuthorsModule,
+    PostsModule,
   ],
   providers: [AppService, AppResolver],
 })
