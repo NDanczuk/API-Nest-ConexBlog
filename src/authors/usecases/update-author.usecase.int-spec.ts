@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client'
 import { UpdateAuthorUsecase } from './update-author.usecase'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 import { AuthorDataBuilder } from '../helpers/author-data-builder'
+import { BadRequestError } from '@/shared/errors/bad-request-error'
+import { ConflictError } from '@/shared/errors/conflict-error'
 
 describe('UpdateAuthorUsecase integration tests', () => {
   let module: TestingModule
@@ -28,17 +30,38 @@ describe('UpdateAuthorUsecase integration tests', () => {
     await module.close()
   })
 
-  test('should throw an error when id is not found', async () => {
-    await expect(() =>
-      usecase.execute({ id: 'Fake id' }),
-    ).rejects.toBeInstanceOf(NotFoundError)
+  test('should throw an error when id is not provided', async () => {
+    const input = {
+      id: null,
+    }
+    await expect(() => usecase.execute(input)).rejects.toBeInstanceOf(
+      BadRequestError,
+    )
   })
 
-  test('should be able to get author by id', async () => {
+  test('should throw an error provided email is already in use', async () => {
+    const data = AuthorDataBuilder({ email: 'a@a.com' })
+    const firstAuthor = await prisma.author.create({ data })
+    const secondAuthor = await prisma.author.create({
+      data: AuthorDataBuilder({}),
+    })
+
+    secondAuthor.email = 'a@a.com'
+    await expect(() => usecase.execute(secondAuthor)).rejects.toBeInstanceOf(
+      ConflictError,
+    )
+  })
+
+  test('should be able to update author', async () => {
     const data = AuthorDataBuilder({})
     const author = await prisma.author.create({ data })
 
-    const result = await usecase.execute({ id: author.id })
-    expect(result).toStrictEqual(author)
+    const result = await usecase.execute({
+      ...author,
+      name: 'Updated name',
+      email: 'a@a.com',
+    })
+    expect(result.name).toEqual('Updated name')
+    expect(result.email).toEqual('a@a.com')
   })
 })
