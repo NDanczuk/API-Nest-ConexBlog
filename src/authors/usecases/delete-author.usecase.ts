@@ -1,7 +1,7 @@
 import { AuthorOutput } from '../dto/author-output'
 import { AuthorsPrismaRepository } from '../repositories/authors-prisma.repository'
 
-export namespace GetAuthorUsecase {
+export namespace DeleteAuthorUsecase {
   export type Input = {
     id: string
   }
