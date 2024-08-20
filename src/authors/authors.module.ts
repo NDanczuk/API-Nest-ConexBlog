@@ -4,6 +4,10 @@ import { DatabaseModule } from '@/database/database.module'
 import { PrismaService } from '@/database/prisma/prisma.service'
 import { AuthorsPrismaRepository } from './repositories/authors-prisma.repository'
 import { ListAuthorsUsecase } from './usecases/list-authors.usecase'
+import { GetAuthorUsecase } from './usecases/get-author.usecase'
+import { CreateAuthorUsecase } from './usecases/create-author.usecase'
+import { UpdateAuthorUsecase } from './usecases/update-author.usecase'
+import { DeleteAuthorUsecase } from './usecases/delete-author.usecase'
 
 @Module({
   imports: [DatabaseModule],
@@ -22,6 +26,34 @@ import { ListAuthorsUsecase } from './usecases/list-authors.usecase'
     },
     {
       provide: ListAuthorsUsecase.Usecase,
+      useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+        return new ListAuthorsUsecase.Usecase(authorsRepository)
+      },
+      inject: ['AuthorsRepository'],
+    },
+    {
+      provide: GetAuthorUsecase.Usecase,
+      useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+        return new ListAuthorsUsecase.Usecase(authorsRepository)
+      },
+      inject: ['AuthorsRepository'],
+    },
+    {
+      provide: CreateAuthorUsecase.Usecase,
+      useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+        return new ListAuthorsUsecase.Usecase(authorsRepository)
+      },
+      inject: ['AuthorsRepository'],
+    },
+    {
+      provide: UpdateAuthorUsecase.Usecase,
+      useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+        return new ListAuthorsUsecase.Usecase(authorsRepository)
+      },
+      inject: ['AuthorsRepository'],
+    },
+    {
+      provide: DeleteAuthorUsecase.Usecase,
       useFactory: (authorsRepository: AuthorsPrismaRepository) => {
         return new ListAuthorsUsecase.Usecase(authorsRepository)
       },
