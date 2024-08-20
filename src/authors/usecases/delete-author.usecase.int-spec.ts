@@ -9,7 +9,7 @@ import { AuthorDataBuilder } from '../helpers/author-data-builder'
 describe('GetAuthorUsecase integration tests', () => {
   let module: TestingModule
   let repository: AuthorsPrismaRepository
-  let usecase: GetAuthorUsecase.Usecase
+  let usecase: DeleteAuthorUsecase.Usecase
   const prisma = new PrismaClient()
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe('GetAuthorUsecase integration tests', () => {
     await prisma.$connect()
     module = await Test.createTestingModule({}).compile()
     repository = new AuthorsPrismaRepository(prisma as any)
-    usecase = new GetAuthorUsecase.Usecase(repository)
+    usecase = new DeleteAuthorUsecase.Usecase(repository)
   })
 
   beforeEach(async () => {
@@ -34,11 +34,14 @@ describe('GetAuthorUsecase integration tests', () => {
     ).rejects.toBeInstanceOf(NotFoundError)
   })
 
-  test('should be able to get author by id', async () => {
+  test('should be able to delete an author', async () => {
     const data = AuthorDataBuilder({})
     const author = await prisma.author.create({ data })
 
     const result = await usecase.execute({ id: author.id })
     expect(result).toStrictEqual(author)
+
+    const authors = await prisma.author.findMany()
+    expect(authors).toHaveLength(0)
   })
 })
