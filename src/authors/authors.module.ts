@@ -34,28 +34,28 @@ import { DeleteAuthorUsecase } from './usecases/delete-author.usecase'
     {
       provide: GetAuthorUsecase.Usecase,
       useFactory: (authorsRepository: AuthorsPrismaRepository) => {
-        return new ListAuthorsUsecase.Usecase(authorsRepository)
+        return new GetAuthorUsecase.Usecase(authorsRepository)
       },
       inject: ['AuthorsRepository'],
     },
     {
       provide: CreateAuthorUsecase.Usecase,
       useFactory: (authorsRepository: AuthorsPrismaRepository) => {
-        return new ListAuthorsUsecase.Usecase(authorsRepository)
+        return new CreateAuthorUsecase.Usecase(authorsRepository)
       },
       inject: ['AuthorsRepository'],
     },
     {
       provide: UpdateAuthorUsecase.Usecase,
       useFactory: (authorsRepository: AuthorsPrismaRepository) => {
-        return new ListAuthorsUsecase.Usecase(authorsRepository)
+        return new UpdateAuthorUsecase.Usecase(authorsRepository)
       },
       inject: ['AuthorsRepository'],
     },
     {
       provide: DeleteAuthorUsecase.Usecase,
       useFactory: (authorsRepository: AuthorsPrismaRepository) => {
-        return new ListAuthorsUsecase.Usecase(authorsRepository)
+        return new DeleteAuthorUsecase.Usecase(authorsRepository)
       },
       inject: ['AuthorsRepository'],
     },

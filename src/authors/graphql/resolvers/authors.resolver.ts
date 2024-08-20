@@ -1,23 +1,37 @@
-import { Args, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Author } from '../models/author'
 import { Inject } from '@nestjs/common'
 import { ListAuthorsUsecase } from '@/authors/usecases/list-authors.usecase'
 import { SearchParamsArgs } from '../args/search-params.args'
 import { SearchAuthorsResult } from '../models/search-authors-result'
+import { CreateAuthorUsecase } from '@/authors/usecases/create-author.usecase'
+import { CreateAuthorInput } from '../inputs/create-author.input'
 
 @Resolver(() => Author)
 export class AuthorsResolver {
   @Inject(ListAuthorsUsecase.Usecase)
   private listAuthorUseCase: ListAuthorsUsecase.Usecase
 
+  @Inject(CreateAuthorUsecase.Usecase)
+  private createAuthorUseCase: CreateAuthorUsecase.Usecase
+
   @Query(() => SearchAuthorsResult)
-  authors(@Args() { page, perPage, sort, sortDir, filter }: SearchParamsArgs) {
-    return this.listAuthorUseCase.execute({
+  async authors(
+    @Args() { page, perPage, sort, sortDir, filter }: SearchParamsArgs,
+  ) {
+    const list = await this.listAuthorUseCase.execute({
       page,
       perPage,
       sort,
       sortDir,
       filter,
     })
+
+    return list
+  }
+
+  @Mutation(() => Author)
+  async createAuthor(@Args('data') data: CreateAuthorInput) {
+    return this.createAuthorUseCase.execute(data)
   }
 }
