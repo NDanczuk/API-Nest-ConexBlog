@@ -1,6 +1,6 @@
 import { PrismaService } from '@/database/prisma/prisma.service'
 import { Post } from '../graphql/models/post'
-import { PostsRepository } from '../interfaces/posts-prisma.repository'
+import { PostsRepository } from '../interfaces/posts.repository'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 
 export class PostsPrismaRepository implements PostsRepository {
