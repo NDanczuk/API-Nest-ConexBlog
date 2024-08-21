@@ -1,8 +1,5 @@
 import { PostOutput } from '../dto/post-output'
 import { PostsPrismaRepository } from '../repositories/posts-prisma.repository'
-import { BadRequestError } from '@/shared/errors/bad-request-error'
-import slugify from 'slugify'
-import { ConflictError } from '@/shared/errors/conflict-error'
 
 export namespace GetPostUseCase {
   export type Input = {
