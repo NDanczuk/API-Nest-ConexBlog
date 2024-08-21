@@ -61,4 +61,32 @@ describe('PostsPrismaRepository integration tests', () => {
     const result = await repository.create({ ...postData, authorId: author.id })
     expect(result).toMatchObject(postData)
   })
+
+  // Update
+  test('should throw an error when updating and the id is not found', async () => {
+    const data = PostsDataBuilder({})
+    const post = {
+      ...data,
+      id: 'Fake ID',
+      authorId: 'Fake ID',
+    }
+    await expect(repository.update(post)).rejects.toThrow(
+      new NotFoundError('Post not found using ID Fake ID'),
+    )
+  })
+
+  test('should update a post', async () => {
+    const postData = PostsDataBuilder({})
+    const authorData = AuthorDataBuilder({})
+    const author = await prisma.author.create({ data: authorData })
+
+    const post = await repository.create({ ...postData, authorId: author.id })
+    const result = await repository.update({
+      ...post,
+      published: true,
+      title: 'Updated title',
+    })
+    expect(result.published).toEqual(true)
+    expect(result.title).toEqual('Updated title')
+  })
 })
