@@ -20,6 +20,7 @@ describe('PostsPrismaRepository integration tests', () => {
 
   beforeEach(async () => {
     await prisma.post.deleteMany()
+    await prisma.author.deleteMany()
   })
 
   afterAll(async () => {
