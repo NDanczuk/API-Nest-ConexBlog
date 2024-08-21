@@ -16,14 +16,7 @@ export namespace GetPostUseCase {
 
     async execute(input: Input): Promise<Output> {
       const post = await this.postsRepository.findById(input.id)
-      return {
-        id: post.id,
-        title: post.title,
-        content: post.content,
-        published: post.published,
-        authorId: post.authorId,
-        createdAt: post.createdAt,
-      }
+      return post as PostOutput
     }
   }
 }
