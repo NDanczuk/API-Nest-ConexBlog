@@ -1,6 +1,6 @@
 import { PrismaService } from '@/database/prisma/prisma.service'
 import { Post } from '../graphql/models/post'
-import { PostsRepository } from '../interfaces/posts.repository'
+import { PostsRepository } from '../interfaces/posts-prisma.repository'
 import { NotFoundError } from '@/shared/errors/not-found-error'
 
 export class PostsPrismaRepository implements PostsRepository {
@@ -27,7 +27,7 @@ export class PostsPrismaRepository implements PostsRepository {
       where: { id },
     })
     if (!post) {
-      throw new NotFoundError(`Post not found using id ${id}`)
+      throw new NotFoundError(`Post not found using ID ${id}`)
     }
     return post
   }
