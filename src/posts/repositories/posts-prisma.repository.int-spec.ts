@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { execSync } from 'node:child_process'
 import { PrismaClient } from '@prisma/client'
 import { NotFoundError } from '@/shared/errors/not-found-error'
-import { PostsPrismaRepository } from '../repositories/posts-prisma-repository'
+import { PostsPrismaRepository } from './posts-prisma.repository'
 import { PostsDataBuilder } from '../helpers/posts-data-builder'
 import { AuthorDataBuilder } from '@/authors/helpers/author-data-builder'
 
@@ -37,6 +37,7 @@ describe('PostsPrismaRepository integration tests', () => {
     const postData = PostsDataBuilder({})
     const authorData = AuthorDataBuilder({})
     const author = await prisma.author.create({ data: authorData })
+
     const post = await prisma.post.create({
       data: {
         ...postData,
@@ -48,5 +49,15 @@ describe('PostsPrismaRepository integration tests', () => {
 
     const result = await repository.findById(post.id)
     expect(result).toStrictEqual(post)
+  })
+
+  //Create
+  test('should create a new post', async () => {
+    const postData = PostsDataBuilder({})
+    const authorData = AuthorDataBuilder({})
+    const author = await prisma.author.create({ data: authorData })
+
+    const result = await repository.create({ ...postData, authorId: author.id })
+    expect(result).toMatchObject(postData)
   })
 })
